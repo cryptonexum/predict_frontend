@@ -205,6 +205,8 @@ const Home = () => {
     fetchBalance();
   }, [userFriendlyAddress, initdata, token]);
 
+
+
   const filteredPortfolio = useMemo(() => {
     return portfolio.filter((trade) => {
       const status = trade.status?.toLowerCase() || "active";
@@ -213,6 +215,8 @@ const Home = () => {
         : status === "settled";
     });
   }, [portfolio, portfolioTab]);
+
+    console.log("filteredPortfolio",filteredPortfolio)
 
   const triggerHaptic = (style = "light") => {
     if (window.Telegram?.WebApp?.HapticFeedback) {
@@ -287,6 +291,7 @@ const Home = () => {
       amount: parseFloat(amount),
       side: selectedMarket.type === "binary" ? tradeSide : "multi",
       optionId: selectedMarket.type === "multi" ? selectedOptionId : null,
+      price:selectedMarket[tradeSide]
     };
 
     try {
