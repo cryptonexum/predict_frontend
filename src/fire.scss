@@ -1,0 +1,54 @@
+@use "sass:math";
+@use "sass:list";
+
+$particles: 60;
+$width: 500;
+$height: 500;
+
+$box-shadow: ();
+$box-shadow2: ();
+
+@for $i from 0 through $particles {
+  $random-x: math.random($width) - math.div($width, 2);
+  $random-y: math.random($height) - math.div($height, 1.2);
+  $random-h: math.random(360);
+
+  $box-shadow: list.append($box-shadow, #{$random-x}px #{$random-y}px hsl($random-h, 100%, 50%), comma);
+  $box-shadow2: list.append($box-shadow2, 0 0 #fff, comma);
+}
+
+// REMOVE the @mixin keyframes and others. Just use standard CSS:
+@keyframes bang {
+  to { box-shadow: $box-shadow; }
+}
+
+@keyframes gravity {
+  to {
+    transform: translateY(200px);
+    opacity: 0;
+  }
+}
+
+@keyframes position {
+  0%, 19.9% { margin-top: 10%; margin-left: 40%; }
+  20%, 39.9% { margin-top: 40%; margin-left: 30%; }
+  40%, 59.9% { margin-top: 20%; margin-left: 70%; }
+  60%, 79.9% { margin-top: 30%; margin-left: 20%; }
+  80%, 99.9% { margin-top: 30%; margin-left: 80%; }
+}
+
+.pyro > .before, .pyro > .after {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  box-shadow: $box-shadow2;
+  animation: 1s bang ease-out infinite backwards, 
+             1s gravity ease-in infinite backwards, 
+             5s position linear infinite backwards;
+}
+
+.pyro > .after {
+  animation-delay: 1.25s, 1.25s, 1.25s;
+  animation-duration: 1.25s, 1.25s, 6.25s;
+}
